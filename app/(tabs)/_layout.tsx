@@ -23,9 +23,45 @@ export default function TabLayout() {
         }}
       />
 
-      <Tabs.Screen name="films" options={{ title: 'My Library' }} />
-      <Tabs.Screen name="about" options={{ title: 'About' }} />
-      <Tabs.Screen name="developers" options={{ title: 'Local Developers' }} />
+      <Tabs.Screen
+        name="films"
+        options={{
+          title: 'My Library',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'film-sharp' : 'film-outline'}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="about"
+        options={{
+          title: 'About',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'person-circle-sharp' : 'person-circle-outline'}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="developers"
+        options={{
+          title: 'Local Developers',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'location-sharp' : 'location-outline'}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
