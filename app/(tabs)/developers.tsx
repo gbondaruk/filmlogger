@@ -2,6 +2,7 @@ import { Inter_300Light, useFonts } from '@expo-google-fonts/inter';
 import Constants from 'expo-constants';
 import { Link, Stack } from 'expo-router';
 import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import MapView from 'react-native-maps';
 import { colors } from '../../constants/Colors';
 
 const styles = StyleSheet.create({
@@ -23,6 +24,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  map: {
+    width: '100%',
+    height: '50%',
+  },
 });
 
 export default function Index() {
@@ -35,11 +40,17 @@ export default function Index() {
   }
   return (
     <SafeAreaView style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 48.2081,
+          longitude: 16.3713,
+          latitudeDelta: 0.0722,
+          longitudeDelta: 0.0221,
+        }}
+      />
       <View style={styles.view}>
-        <Text style={styles.text}>Developers</Text>
-        <Link href="/" style={styles.text}>
-          Go to Home screen
-        </Link>
+        <Text style={styles.text}>Local Film Developers</Text>
       </View>
     </SafeAreaView>
   );
