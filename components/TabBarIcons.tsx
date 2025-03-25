@@ -9,8 +9,8 @@ export function TabBarIcon({
 }: IconProps<ComponentProps<typeof Ionicons>['name']>) {
   return (
     <Ionicons
-      size={32}
-      style={[{ marginBottom: -3, fontFamily: '' }, style]}
+      size={25}
+      style={[{ marginBottom: 1, fontFamily: '' }, style]}
       color={color}
       name={name}
     />

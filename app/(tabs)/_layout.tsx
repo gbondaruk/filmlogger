@@ -1,23 +1,30 @@
 import { Link, Tabs } from 'expo-router';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
 import { TabBarIcon } from '../../components/TabBarIcons';
 import { colors } from '../../constants/Colors';
 
 export default function TabLayout() {
+  const theme = useColorScheme(); // Detect system theme
+
+  const themeColors = theme === 'dark' ? colors.dark : colors.light; // Select colors based on theme
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.text,
-        tabBarInactiveTintColor: colors.textSecondary,
+        tabBarActiveTintColor: themeColors.text, // Primary text color
+        tabBarInactiveTintColor: themeColors.textSecondary, // Subtle muted color
         headerShown: true,
         headerStyle: {
-          backgroundColor: colors.background,
+          backgroundColor: themeColors.background, // Warm beige or deep gray
+          borderBottomColor: themeColors.border, // Soft taupe or teal border
+          borderBottomWidth: 1,
         },
-        headerTintColor: colors.text,
+        headerTintColor: themeColors.text,
         tabBarStyle: {
-          backgroundColor: colors.background,
-          borderTopColor: colors.text,
+          backgroundColor: themeColors.background,
+          borderTopColor: themeColors.border, // Border matches the theme
           borderTopWidth: 1,
+          shadowColor: themeColors.shadow, // Subtle shadow
         },
       }}
     >
@@ -44,6 +51,7 @@ export default function TabLayout() {
             }),
         }}
       />
+
       <Tabs.Screen
         name="about"
         options={{
@@ -55,6 +63,7 @@ export default function TabLayout() {
             }),
         }}
       />
+
       <Tabs.Screen
         name="developers"
         options={{
