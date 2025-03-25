@@ -1,11 +1,24 @@
-import { Tabs } from 'expo-router';
+import { Link, Tabs } from 'expo-router';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { TabBarIcon } from '../../components/TabBarIcons';
+import { colors } from '../../constants/Colors';
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#ffd33d',
+        tabBarActiveTintColor: colors.text,
+        tabBarInactiveTintColor: colors.textSecondary,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: colors.background,
+        },
+        headerTintColor: colors.text,
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          borderTopColor: colors.text,
+          borderTopWidth: 1,
+        },
       }}
     >
       <Tabs.Screen
