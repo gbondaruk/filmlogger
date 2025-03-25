@@ -1,5 +1,5 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
+import { TabBarIcon } from '../../components/TabBarIcons';
 
 export default function TabLayout() {
   return (
@@ -12,13 +12,11 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'home-sharp' : 'home-outline'}
-              color={color}
-              size={24}
-            />
-          ),
+          tabBarIcon: ({ color, focused }) =>
+            TabBarIcon({
+              name: focused ? 'home-sharp' : 'home-outline',
+              color,
+            }),
         }}
       />
 
@@ -26,39 +24,33 @@ export default function TabLayout() {
         name="films"
         options={{
           title: 'My Library',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'film-sharp' : 'film-outline'}
-              color={color}
-              size={24}
-            />
-          ),
+          tabBarIcon: ({ color, focused }) =>
+            TabBarIcon({
+              name: focused ? 'film-sharp' : 'film-outline',
+              color,
+            }),
         }}
       />
       <Tabs.Screen
         name="about"
         options={{
           title: 'About',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'person-circle-sharp' : 'person-circle-outline'}
-              color={color}
-              size={24}
-            />
-          ),
+          tabBarIcon: ({ color, focused }) =>
+            TabBarIcon({
+              name: focused ? 'person-circle-sharp' : 'person-circle-outline',
+              color,
+            }),
         }}
       />
       <Tabs.Screen
         name="developers"
         options={{
           title: 'Local Developers',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? 'location-sharp' : 'location-outline'}
-              color={color}
-              size={24}
-            />
-          ),
+          tabBarIcon: ({ color, focused }) =>
+            TabBarIcon({
+              name: focused ? 'location-sharp' : 'location-outline',
+              color,
+            }),
         }}
       />
     </Tabs>

@@ -10,7 +10,7 @@ export function TabBarIcon({
   return (
     <Ionicons
       size={32}
-      style={[{ marginBottom: -3, fontFamily: 'Poppins_400Regular' }, style]}
+      style={[{ marginBottom: -3, fontFamily: '' }, style]}
       color={color}
       name={name}
     />
