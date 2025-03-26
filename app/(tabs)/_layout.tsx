@@ -4,27 +4,23 @@ import { TabBarIcon } from '../../components/TabBarIcons';
 import { colors } from '../../constants/Colors';
 
 export default function TabLayout() {
-  const theme = useColorScheme(); // Detect system theme
-
-  const themeColors = theme === 'dark' ? colors.dark : colors.light; // Select colors based on theme
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: themeColors.text, // Primary text color
-        tabBarInactiveTintColor: themeColors.textSecondary, // Subtle muted color
+        tabBarActiveTintColor: colors.text, // Primary text color
+        tabBarInactiveTintColor: colors.textSecondary, // Subtle muted color
         headerShown: true,
         headerStyle: {
-          backgroundColor: themeColors.background, // Warm beige or deep gray
-          borderBottomColor: themeColors.border, // Soft taupe or teal border
+          backgroundColor: colors.background, // Warm beige or deep gray
+          borderBottomColor: colors.border, // Soft taupe or teal border
           borderBottomWidth: 1,
         },
-        headerTintColor: themeColors.text,
+        headerTintColor: colors.text,
         tabBarStyle: {
-          backgroundColor: themeColors.background,
-          borderTopColor: themeColors.border, // Border matches the theme
+          backgroundColor: colors.background,
+          borderTopColor: colors.border, // Border matches the theme
           borderTopWidth: 1,
-          shadowColor: themeColors.shadow, // Subtle shadow
+          shadowColor: colors.shadow, // Subtle shadow
         },
       }}
     >

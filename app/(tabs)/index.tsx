@@ -1,7 +1,14 @@
 import { Inter_300Light, useFonts } from '@expo-google-fonts/inter';
 import Constants from 'expo-constants';
 import { Link, Stack } from 'expo-router';
-import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { colors } from '../../constants/Colors';
 
 const styles = StyleSheet.create({
