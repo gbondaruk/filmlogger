@@ -63,7 +63,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="developers"
         options={{
-          title: 'Local Developers',
+          title: 'Film Developers',
           tabBarIcon: ({ color, focused }) =>
             TabBarIcon({
               name: focused ? 'location-sharp' : 'location-outline',
