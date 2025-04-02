@@ -28,7 +28,6 @@ type Location = {
   description: string;
 };
 
-// Initial region definition - defined outside to avoid recreation on renders
 const initialRegion = {
   latitude: 48.2081,
   longitude: 16.3613,
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   selectedItem: {
-    backgroundColor: `${colors.accent}30`, // Adding 30 for opacity
+    backgroundColor: `${colors.accent}30`,
     borderColor: colors.accent,
     borderWidth: 1,
   },
@@ -188,23 +187,17 @@ export default function Index(): React.ReactNode | null {
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const mapRef = useRef<MapView | null>(null);
-  const markerRefs = useRef<Record<number, Marker | null>>({});
+  const markerRefs = useRef<Record<number, typeof Marker | null>>({});
 
-  // Reset the map to initial view when tab is focused
   useFocusEffect(
     useCallback(() => {
-      // Reset selected item
       setSelectedId(null);
 
-      // Reset map to initial region
       if (mapRef.current) {
         mapRef.current.animateToRegion(initialRegion, 500);
       }
 
-      // Return cleanup function (optional)
-      return () => {
-        // Any cleanup needed when tab loses focus
-      };
+      return () => {};
     }, []),
   );
 
@@ -250,7 +243,7 @@ export default function Index(): React.ReactNode | null {
 
   const keyExtractor = useCallback((item: Location) => item.id.toString(), []);
 
-  const setMarkerRef = useCallback((ref: Marker | null, id: number) => {
+  const setMarkerRef = useCallback((ref: typeof Marker | null, id: number) => {
     if (ref) {
       markerRefs.current[id] = ref;
     }
