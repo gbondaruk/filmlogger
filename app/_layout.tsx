@@ -26,8 +26,10 @@ const styles = StyleSheet.create({
 
 export default function HomeLayout() {
   const [fontsLoaded] = useFonts({
-    Poppins_700Bold,
-    Poppins_400Regular,
+    Inter_300Light,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
   });
 
   if (!fontsLoaded) {

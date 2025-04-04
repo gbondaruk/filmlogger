@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 18,
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: 'Inter_500Medium',
     color: colors.text,
     marginBottom: 8,
   },
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 16,
     fontSize: 16,
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: 'Inter_500Medium',
   },
   inputFocused: {
     borderColor: colors.white,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   text: {
-    fontFamily: 'Poppins_400Regular',
+    fontFamily: 'Inter_500Medium',
     color: colors.cardBackground,
     textAlign: 'center',
     fontSize: 18,
