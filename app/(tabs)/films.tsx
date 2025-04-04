@@ -1,4 +1,10 @@
-import { Inter_300Light, useFonts } from '@expo-google-fonts/inter';
+import {
+  Inter_300Light,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  useFonts,
+} from '@expo-google-fonts/inter';
 import Constants from 'expo-constants';
 import { Link, Stack } from 'expo-router';
 import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';

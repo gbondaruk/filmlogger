@@ -1,8 +1,10 @@
 import {
-  Poppins_400Regular,
-  Poppins_700Bold,
+  Inter_300Light,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
   useFonts,
-} from '@expo-google-fonts/poppins';
+} from '@expo-google-fonts/inter';
 import Constants from 'expo-constants';
 import { Stack } from 'expo-router';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
