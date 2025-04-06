@@ -5,13 +5,12 @@ export type Lens = {
   id: number;
   brand: string;
   model: string;
-  user_id: number;
+  userId: number;
 };
 
 export const lensSchema = z.object({
   brand: z.string().min(1).max(30),
   model: z.string().min(1).max(30),
-  user_id: z.string().min(1).max(90),
 });
 
 export async function up(sql: Sql) {
