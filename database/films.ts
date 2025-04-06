@@ -1,4 +1,4 @@
-import type { Guest } from '../migrations/00000-createTableGuests';
+import type { Film } from '../migrations/00002-createTableFilms';
 import { sql } from './connect';
 
 export const getGuestsInsecure = async () => {
