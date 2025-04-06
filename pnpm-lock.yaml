@@ -129,6 +129,9 @@ importers:
       '@ts-safeql/eslint-plugin':
         specifier: ^3.6.11
         version: 3.6.11(@typescript-eslint/utils@8.29.0(eslint@9.24.0)(typescript@5.8.3))(libpg-query@16.3.0(encoding@0.1.13))
+      '@types/bcryptjs':
+        specifier: 2.4.6
+        version: 2.4.6
       '@types/dotenv-safe':
         specifier: 8.1.6
         version: 8.1.6
@@ -1638,6 +1641,9 @@ packages:
 
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
+
+  '@types/bcryptjs@2.4.6':
+    resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
 
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
@@ -8390,6 +8396,8 @@ snapshots:
   '@types/babel__traverse@7.20.7':
     dependencies:
       '@babel/types': 7.27.0
+
+  '@types/bcryptjs@2.4.6': {}
 
   '@types/cookie@0.6.0': {}
 

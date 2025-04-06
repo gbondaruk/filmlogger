@@ -20,11 +20,16 @@ const config: ExpoConfig = {
   },
   web: {
     bundler: 'metro',
-    output: 'static',
+    output: 'server',
     favicon: './assets/images/favicon.png',
   },
   plugins: [
-    'expo-router',
+    [
+      'expo-router',
+      {
+        origin: 'https://evanbacon.dev',
+      },
+    ],
     [
       'expo-splash-screen',
       {
