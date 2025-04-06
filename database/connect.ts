@@ -10,13 +10,9 @@ declare namespace globalThis {
 
 function connectOneTimeToDatabase() {
   if (!('postgresSqlClient' in globalThis)) {
-    globalThis.postgresSqlClient = postgres({
-      transform: {
-        ...postgres.camel,
-        undefined: null,
-      },
-    });
+    globalThis.postgresSqlClient = postgres(postgresConfig);
   }
+
   return globalThis.postgresSqlClient;
 }
 

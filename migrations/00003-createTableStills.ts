@@ -28,7 +28,7 @@ export async function up(sql: Sql) {
       images integer NOT NULL,
       development varchar(30) NOT NULL,
       current_status varchar(30) NOT NULL,
-      film_id integer NOT NULL REFERENCES films (id),
+      film_id integer NOT NULL REFERENCES films (id)
     )
   `;
 }
