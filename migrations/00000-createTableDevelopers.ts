@@ -2,6 +2,7 @@ import type { Sql } from 'postgres';
 import { z } from 'zod';
 
 export type Developer = {
+  id: number;
   business_name: string;
   address: string;
   website: string;
@@ -25,17 +26,18 @@ export const developersSchema = z.object({
 
 export async function up(sql: Sql) {
   await sql`
-  CREATE TABLE developers (
-    business_name VARCHAR(255),
-    address VARCHAR(255),
-    website VARCHAR(255),
-    opening_hours VARCHAR(255),
-    location GEOGRAPHY(POINT),
-    services_offered TEXT,
-    type_of_development VARCHAR(255),
-    contact_information VARCHAR(255)
-      )
-    `;
+    CREATE TABLE developers (
+      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      business_name varchar(255),
+      address varchar(255),
+      website varchar(255),
+      opening_hours varchar(255),
+      location geography (point),
+      services_offered text,
+      type_of_development varchar(255),
+      contact_information varchar(255)
+    )
+  `;
 }
 export async function down(sql: Sql) {
   await sql`DROP TABLE developers`;
