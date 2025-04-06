@@ -1,70 +1,122 @@
 import type { Film } from '../migrations/00002-createTableFilms';
+import type { Session } from '../migrations/00005-createTableSessions';
 import { sql } from './connect';
 
-export const getGuestsInsecure = async () => {
-  const guests = await sql<Guest[]>`
+export async function getFilms(sessionToken: Session['token']) {
+  const films = await sql<Film[]>`
     SELECT
-      *
+      films.*
     FROM
-      guests
+      films
+      INNER JOIN sessions ON (
+        sessions.token = ${sessionToken}
+        AND sessions.user_id = films.user_id
+        AND sessions.expiry_timestamp > now()
+      )
   `;
-  return guests;
-};
+  return films;
+}
 
-export const getGuestInsecure = async (guestId: Guest['id']) => {
-  const [guest] = await sql<Guest[]>`
+export async function getFilm(
+  sessionToken: Session['token'],
+  filmId: Film['id'],
+) {
+  const [film] = await sql<Film[]>`
     SELECT
-      *
+      films.*
     FROM
-      guests
+      films
+      INNER JOIN sessions ON (
+        sessions.token = ${sessionToken}
+        AND sessions.user_id = films.user_id
+        AND sessions.expiry_timestamp > now()
+      )
     WHERE
-      id = ${guestId}
+      films.id = ${filmId}
   `;
-  return guest;
-};
+  return film;
+}
 
-export const createGuestInsecure = async (newGuest: Omit<Guest, 'id'>) => {
-  const [guest] = await sql<Guest[]>`
+export async function createFilm(
+  sessionToken: Session['token'],
+  newFilm: Omit<Film, 'id' | 'userId'>,
+) {
+  const [film] = await sql<Film[]>`
     INSERT INTO
-      guests (
-        first_name,
-        last_name,
-        attending
-      )
-    VALUES
-      (
-        ${newGuest.firstName},
-        ${newGuest.lastName},
-        ${newGuest.attending}
+      films (
+        user_id,
+        brand,
+        iso,
+        images,
+        development,
+        current_status,
+        style,
+        camera_id,
+        lens_id
+      ) (
+        SELECT
+          user_id,
+          ${newFilm.brand},
+          ${newFilm.iso},
+          ${newFilm.images},
+          ${newFilm.development},
+          ${newFilm.currentStatus},
+          ${newFilm.style},
+          ${newFilm.cameraId},
+          ${newFilm.lensId}
+        FROM
+          sessions
+        WHERE
+          token = ${sessionToken}
+          AND expiry_timestamp > now()
       )
     RETURNING
-      guests.*
+      films.*
   `;
-  return guest;
-};
+  return film;
+}
 
-export const updateGuestInsecure = async (updatedGuest: Guest) => {
-  const [guest] = await sql<Guest[]>`
-    UPDATE guests
+export async function updateFilm(
+  sessionToken: Session['token'],
+  updatedFilm: Omit<Film, 'userId'>,
+) {
+  const [film] = await sql<Film[]>`
+    UPDATE films
     SET
-      first_name = ${updatedGuest.firstName},
-      last_name = ${updatedGuest.lastName},
-      attending = ${updatedGuest.attending}
+      brand = ${updatedFilm.brand},
+      iso = ${updatedFilm.iso},
+      images = ${updatedFilm.images},
+      development = ${updatedFilm.development},
+      current_status = ${updatedFilm.currentStatus},
+      style = ${updatedFilm.style},
+      camera_id = ${updatedFilm.cameraId},
+      lens_id = ${updatedFilm.lensId}
+    FROM
+      sessions
     WHERE
-      id = ${updatedGuest.id}
+      sessions.token = ${sessionToken}
+      AND sessions.expiry_timestamp > now()
+      AND sessions.user_id = films.user_id
+      AND films.id = ${updatedFilm.id}
     RETURNING
-      guests.*
+      films.*
   `;
-  return guest;
-};
+  return film;
+}
 
-export const deleteGuestInsecure = async (guestId: Guest['id']) => {
-  const [guest] = await sql<Guest[]>`
-    DELETE FROM guests
+export async function deleteFilm(
+  sessionToken: Session['token'],
+  filmId: Film['id'],
+) {
+  const [film] = await sql<Film[]>`
+    DELETE FROM films USING sessions
     WHERE
-      id = ${guestId}
+      sessions.token = ${sessionToken}
+      AND sessions.expiry_timestamp > now()
+      AND sessions.user_id = films.user_id
+      AND films.id = ${filmId}
     RETURNING
-      guests.*
+      films.*
   `;
-  return guest;
-};
+  return film;
+}

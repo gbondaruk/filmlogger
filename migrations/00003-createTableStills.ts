@@ -23,15 +23,16 @@ export async function up(sql: Sql) {
   await sql`
     CREATE TABLE stills (
       id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      brand varchar(30) NOT NULL,
-      iso integer NOT NULL,
-      images integer NOT NULL,
-      development varchar(30) NOT NULL,
-      current_status varchar(30) NOT NULL,
+      location varchar(30) NOT NULL,
+      time timestamp NOT NULL,
+      exposure_time varchar(30) NOT NULL,
+      aperture varchar(10) NOT NULL,
+      tag varchar(40) NOT NULL,
       film_id integer NOT NULL REFERENCES films (id)
     )
   `;
 }
+
 export async function down(sql: Sql) {
   await sql`DROP TABLE stills`;
 }
