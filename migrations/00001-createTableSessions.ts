@@ -1,9 +1,9 @@
 import type { Sql } from 'postgres';
 
 export type Session = {
-  id: number | null;
-  token: string | null;
-  userId: number | null;
+  id: number;
+  token: string;
+  userId: number;
 };
 
 export async function up(sql: Sql) {

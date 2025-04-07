@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight + 20,
+    // paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight + 20,
     paddingBottom: 20,
     justifyContent: 'center',
     alignItems: 'center',
