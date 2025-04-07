@@ -1,5 +1,5 @@
-import type { Lens } from '../migrations/00004-createTableLenses';
-import type { Session } from '../migrations/00005-createTableSessions';
+import type { Session } from '../migrations/00001-createTableSessions';
+import type { Lens } from '../migrations/00003-createTableLenses';
 import { sql } from './connect';
 
 export async function getLenses(sessionToken: Session['token']) {

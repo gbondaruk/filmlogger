@@ -1,21 +1,21 @@
 import type { Sql } from 'postgres';
 import { z } from 'zod';
 
-export type Camera = {
+export type CameraFL = {
   id: number;
   brand: string;
   model: string;
   userId: number;
 };
 
-export const cameraSchema = z.object({
+export const cameraFLSchema = z.object({
   brand: z.string().min(1).max(30),
   model: z.string().min(1).max(30),
 });
 
 export async function up(sql: Sql) {
   await sql`
-    CREATE TABLE cameras (
+    CREATE TABLE camerasfl (
       id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       brand varchar(30) NOT NULL,
       model varchar(30) NOT NULL,
@@ -24,5 +24,5 @@ export async function up(sql: Sql) {
   `;
 }
 export async function down(sql: Sql) {
-  await sql`DROP TABLE cameras`;
+  await sql`DROP TABLE camerasfl`;
 }

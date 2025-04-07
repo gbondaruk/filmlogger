@@ -1,5 +1,5 @@
-import type { Still } from '../migrations/00003-createTableStills';
-import type { Session } from '../migrations/00005-createTableSessions';
+import type { Session } from '../migrations/00001-createTableSessions';
+import type { Still } from '../migrations/00005-createTableStills';
 import { sql } from './connect';
 
 export async function getStills(sessionToken: Session['token']) {

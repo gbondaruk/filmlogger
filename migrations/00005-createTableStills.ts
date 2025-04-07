@@ -5,7 +5,7 @@ export type Still = {
   id: number;
   location: string;
   time: Date;
-  exposureTime: number;
+  exposureTime: string;
   aperture: string;
   tag: string;
   filmId: number;

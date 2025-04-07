@@ -10,7 +10,7 @@ export type Film = {
   currentStatus: string;
   style: string;
   userId: number;
-  cameraId: number;
+  cameraflId: number;
   lensId: number;
 };
 
@@ -34,7 +34,7 @@ export async function up(sql: Sql) {
       current_status varchar(30) NOT NULL,
       style varchar(30) NOT NULL,
       user_id integer NOT NULL REFERENCES users (id),
-      camera_id integer NOT NULL REFERENCES cameras (id),
+      camerafl_id integer NOT NULL REFERENCES camerasfl (id),
       lens_id integer NOT NULL REFERENCES lenses (id)
     )
   `;

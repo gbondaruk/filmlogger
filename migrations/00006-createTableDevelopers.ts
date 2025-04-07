@@ -32,7 +32,7 @@ export async function up(sql: Sql) {
       address varchar(255),
       website varchar(255),
       opening_hours varchar(255),
-      location geography (point),
+      location varchar(30) NOT NULL,
       services_offered text,
       type_of_development varchar(255),
       contact_information varchar(255)

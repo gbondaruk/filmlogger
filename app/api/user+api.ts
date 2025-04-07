@@ -1,7 +1,7 @@
 import { parse } from 'cookie';
 import { getUser } from '../../database/users';
 import { ExpoApiResponse } from '../../ExpoApiResponse';
-import type { User } from '../../migrations/00006-createTableUsers';
+import type { User } from '../../migrations/00000-createTableUsers';
 
 export type UserResponseBodyGet =
   | {

@@ -1,5 +1,5 @@
-import type { Session } from '../migrations/00005-createTableSessions';
-import type { User } from '../migrations/00006-createTableUsers';
+import type { User } from '../migrations/00000-createTableUsers';
+import type { Session } from '../migrations/00001-createTableSessions';
 import { sql } from './connect';
 
 type UserWithPasswordHash = User & {

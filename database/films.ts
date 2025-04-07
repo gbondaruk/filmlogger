@@ -1,5 +1,5 @@
-import type { Film } from '../migrations/00002-createTableFilms';
-import type { Session } from '../migrations/00005-createTableSessions';
+import type { Session } from '../migrations/00001-createTableSessions';
+import type { Film } from '../migrations/00004-createTableFilms';
 import { sql } from './connect';
 
 export async function getFilms(sessionToken: Session['token']) {
@@ -51,7 +51,7 @@ export async function createFilm(
         development,
         current_status,
         style,
-        camera_id,
+        camerafl_id,
         lens_id
       ) (
         SELECT
@@ -62,7 +62,7 @@ export async function createFilm(
           ${newFilm.development},
           ${newFilm.currentStatus},
           ${newFilm.style},
-          ${newFilm.cameraId},
+          ${newFilm.cameraflId},
           ${newFilm.lensId}
         FROM
           sessions
@@ -89,7 +89,7 @@ export async function updateFilm(
       development = ${updatedFilm.development},
       current_status = ${updatedFilm.currentStatus},
       style = ${updatedFilm.style},
-      camera_id = ${updatedFilm.cameraId},
+      camerafl_id = ${updatedFilm.cameraFLId},
       lens_id = ${updatedFilm.lensId}
     FROM
       sessions
