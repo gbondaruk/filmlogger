@@ -1,21 +1,21 @@
 import type { Sql } from 'postgres';
 import { z } from 'zod';
 
-export type Camerafl = {
-  id: number | null;
-  brand: string | null;
-  model: string | null;
-  userId: number | null;
+export type Lens = {
+  id: null | number;
+  brand: null | string;
+  model: null | string;
+  userId: null | number;
 };
 
-export const cameraflSchema = z.object({
+export const lensSchema = z.object({
   brand: z.string().min(1).max(30),
   model: z.string().min(1).max(30),
 });
 
 export async function up(sql: Sql) {
   await sql`
-    CREATE TABLE camerasfl (
+    CREATE TABLE lenses (
       id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       brand varchar(30) NOT NULL,
       model varchar(30) NOT NULL,
@@ -23,7 +23,6 @@ export async function up(sql: Sql) {
     )
   `;
 }
-
 export async function down(sql: Sql) {
-  await sql`DROP TABLE camerasfl`;
+  await sql`DROP TABLE lenses`;
 }
