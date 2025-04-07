@@ -1,52 +1,81 @@
-import {
-  Inter_300Light,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  useFonts,
-} from '@expo-google-fonts/inter';
-import Constants from 'expo-constants';
-import { Link, Stack } from 'expo-router';
-import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useFocusEffect, useRouter } from 'expo-router';
+import React, { useCallback } from 'react';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import type { LogoutResponseBodyGet } from '../(auth)/api/logout+api';
 import { colors } from '../../constants/Colors';
+import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    marginTop: 30,
+    backgroundColor: colors.text,
+    padding: 12,
+    borderRadius: 12,
+    shadowColor: colors.white,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+    width: '50%',
   },
   text: {
-    color: colors.text,
-  },
-  view: {
-    flex: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight + 20,
-    paddingBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    fontFamily: 'Inter_300Light',
+    color: colors.cardBackground,
+    textAlign: 'center',
+    fontSize: 18,
   },
 });
 
-export default function Index() {
-  const [fontsLoaded] = useFonts({
-    Inter_300Light,
-  });
+export default function Profile() {
+  const router = useRouter();
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  useFocusEffect(
+    useCallback(() => {
+      async function getUser() {
+        const response = await fetch('/api/user');
+
+        const body: UserResponseBodyGet = await response.json();
+
+        if ('error' in body) {
+          router.replace('/(auth)/login?returnTo=/(tabs)/profile');
+          return;
+        }
+      }
+      getUser().catch((error) => {
+        console.error(error);
+      });
+    }, [router]),
+  );
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.view}>
-        <Text style={styles.text}>Profile</Text>
-        <Link href="/" style={styles.text}>
-          Go to Home screen
-        </Link>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Pressable
+        style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
+        onPress={async () => {
+          const response = await fetch('/api/logout');
+
+          if (!response.ok) {
+            let errorMessage = 'Error logging out';
+            const responseBody: LogoutResponseBodyGet = await response.json();
+            if ('error' in responseBody) {
+              errorMessage = responseBody.error;
+            }
+
+            Alert.alert('Error', errorMessage, [{ text: 'OK' }]);
+            return;
+          }
+
+          router.push('/(auth)/login');
+        }}
+      >
+        <Text style={styles.text}>Logout</Text>
+      </Pressable>
+    </View>
   );
 }

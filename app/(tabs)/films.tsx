@@ -36,8 +36,6 @@ export default function Films() {
 
   const router = useRouter();
 
-  // const renderItem = (item: { item: User }) => <UserItem user={item.item} />;
-
   const renderItem = (item: { item: Film }) => (
     <FilmItem film={item.item} setIsStale={setIsStale} />
   );

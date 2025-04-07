@@ -25,13 +25,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     alignItems: 'center',
     width: '100%',
+    justifyContent: 'center',
   },
   loginInputContainer: {
     backgroundColor: colors.cardBackground,
     borderRadius: 12,
     padding: 12,
     marginBottom: 16,
-    width: '100%',
+    width: '50%',
   },
   label: {
     fontSize: 18,
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
   },
   promptTextContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 4,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 4,
-    width: '100%',
+    width: '50%',
   },
   text: {
     fontFamily: 'Inter_500Medium',

@@ -7,9 +7,9 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.text, // Primary text color
-        tabBarInactiveTintColor: colors.textSecondary, // Subtle muted color
-        headerShown: true,
+        tabBarActiveTintColor: colors.text,
+        tabBarInactiveTintColor: colors.textSecondary,
+        headerShown: false,
         headerStyle: {
           backgroundColor: colors.background, // Warm beige or deep gray
           borderBottomColor: colors.border, // Soft taupe or teal border
