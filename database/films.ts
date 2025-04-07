@@ -89,7 +89,7 @@ export async function updateFilm(
       development = ${updatedFilm.development},
       current_status = ${updatedFilm.currentStatus},
       style = ${updatedFilm.style},
-      camerafl_id = ${updatedFilm.cameraFLId},
+      camerafl_id = ${updatedFilm.cameraflId},
       lens_id = ${updatedFilm.lensId}
     FROM
       sessions

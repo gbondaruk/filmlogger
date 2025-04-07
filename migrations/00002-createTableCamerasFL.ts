@@ -1,14 +1,14 @@
 import type { Sql } from 'postgres';
 import { z } from 'zod';
 
-export type CameraFL = {
+export type Camerafl = {
   id: number;
   brand: string;
   model: string;
   userId: number;
 };
 
-export const cameraFLSchema = z.object({
+export const cameraflSchema = z.object({
   brand: z.string().min(1).max(30),
   model: z.string().min(1).max(30),
 });

@@ -1,27 +1,27 @@
 import type { Session } from '../migrations/00001-createTableSessions';
-import type { CameraFL } from '../migrations/00002-createTableCamerasFL';
+import type { Camerafl } from '../migrations/00002-createTableCamerasfl';
 import { sql } from './connect';
 
 export async function getCameras(sessionToken: Session['token']) {
-  const camerasFL = await sql<CameraFL[]>`
+  const camerasfl = await sql<Camerafl[]>`
     SELECT
       camerasfl.*
     FROM
       camerasfl
       INNER JOIN sessions ON (
         sessions.token = ${sessionToken}
-        AND sessions.user_id = cameras.user_id
+        AND sessions.user_id = camerasfl.user_id
         AND sessions.expiry_timestamp > now()
       )
   `;
-  return camerasFL;
+  return camerasfl;
 }
 
-export async function getCameraFL(
+export async function getCamerafl(
   sessionToken: Session['token'],
-  cameraId: CameraFL['id'],
+  cameraflId: Camerafl['id'],
 ) {
-  const [cameraFL] = await sql<CameraFL[]>`
+  const [camerafl] = await sql<Camerafl[]>`
     SELECT
       camerasfl.*
     FROM
@@ -32,22 +32,22 @@ export async function getCameraFL(
         AND sessions.expiry_timestamp > now()
       )
     WHERE
-      camerasfl.id = ${cameraFLId}
+      camerasfl.id = ${cameraflId}
   `;
-  return cameraFL;
+  return camerafl;
 }
 
-export async function createCameraFL(
+export async function createCamerafl(
   sessionToken: Session['token'],
-  newCameraFL: Omit<CameraFL, 'id' | 'user_id'>,
+  newCamerafl: Omit<Camerafl, 'id' | 'user_id'>,
 ) {
-  const [cameraFL] = await sql<CameraFL[]>`
+  const [camerafl] = await sql<Camerafl[]>`
     INSERT INTO
       camerasfl (user_id, brand, model) (
         SELECT
           user_id,
-          ${newCameraFL.brand},
-          ${newCameraFL.model}
+          ${newCamerafl.brand},
+          ${newCamerafl.model}
         FROM
           sessions
         WHERE
@@ -57,44 +57,44 @@ export async function createCameraFL(
     RETURNING
       camerasfl.*
   `;
-  return cameraFL;
+  return camerafl;
 }
 
-export async function updateCameraFL(
+export async function updateCamerafl(
   sessionToken: Session['token'],
-  updatedCameraFL: Omit<CameraFL, 'user_id'>,
+  updatedCamerafl: Omit<Camerafl, 'user_id'>,
 ) {
-  const [cameraFL] = await sql<CameraFL[]>`
+  const [camerafl] = await sql<Camerafl[]>`
     UPDATE camerasfl
     SET
-      brand = ${updatedCameraFL.brand},
-      model = ${updatedCameraFL.model}
+      brand = ${updatedCamerafl.brand},
+      model = ${updatedCamerafl.model}
     FROM
       sessions
     WHERE
       sessions.token = ${sessionToken}
       AND sessions.expiry_timestamp > now()
       AND sessions.user_id = camerasfl.user_id
-      AND camerasfl.id = ${updatedCameraFL.id}
+      AND camerasfl.id = ${updatedCamerafl.id}
     RETURNING
       camerasfl.*
   `;
-  return cameraFL;
+  return camerafl;
 }
 
-export async function deleteCameraFL(
+export async function deleteCamerafl(
   sessionToken: Session['token'],
-  cameraFLId: CameraFL['id'],
+  cameraflId: Camerafl['id'],
 ) {
-  const [cameraFL] = await sql<CameraFL[]>`
+  const [camerafl] = await sql<Camerafl[]>`
     DELETE FROM camerasfl USING sessions
     WHERE
       sessions.token = ${sessionToken}
       AND sessions.expiry_timestamp > now()
       AND sessions.user_id = camerasfl.user_id
-      AND camerasfl.id = ${cameraFLId}
+      AND camerasfl.id = ${cameraflId}
     RETURNING
       camerasfl.*
   `;
-  return cameraFL;
+  return camerafl;
 }
