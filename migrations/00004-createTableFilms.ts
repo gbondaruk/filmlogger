@@ -38,7 +38,58 @@ export async function up(sql: Sql) {
       lens_id integer NOT NULL REFERENCES lenses (id)
     )
   `;
+
+  // Insert sample data
+  await sql`
+    INSERT INTO
+      films (
+        brand,
+        iso,
+        images,
+        development,
+        current_status,
+        style,
+        user_id,
+        camerafl_id,
+        lens_id
+      )
+    VALUES
+      (
+        'Kodak',
+        400,
+        36,
+        'C-41',
+        'Exposed',
+        'Color',
+        1,
+        1,
+        1
+      ),
+      (
+        'Ilford',
+        100,
+        24,
+        'B&W',
+        'Developed',
+        'Black & White',
+        1,
+        2,
+        2
+      ),
+      (
+        'Fujifilm',
+        200,
+        36,
+        'C-41',
+        'In Progress',
+        'Color',
+        1,
+        3,
+        3
+      )
+  `;
 }
+
 export async function down(sql: Sql) {
   await sql`DROP TABLE films`;
 }

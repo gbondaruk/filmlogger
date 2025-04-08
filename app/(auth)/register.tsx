@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import { Link, router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
@@ -17,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
   },
   registerInputContainer: {
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     marginBottom: 16,
-    width: '100%',
+    width: '50%',
   },
   label: {
     fontSize: 18,
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
   },
   promptTextContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 4,
@@ -62,11 +64,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 4,
-    width: '100%',
+    width: '50%',
   },
   text: {
     fontFamily: 'Inter_500Medium',
     color: colors.cardBackground,
+    textAlign: 'center',
+    fontSize: 18,
+  },
+  boldText: {
+    fontFamily: 'Inter_600SemiBold',
+    color: colors.text,
     textAlign: 'center',
     fontSize: 18,
   },
@@ -97,6 +105,11 @@ export default function Register() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Image
+        style={{ width: 150, height: 150, marginBottom: 20 }}
+        source={require('../../assets/images/splash-icon-light.png')} // Corrected
+        contentFit="contain"
+      />
       <View style={styles.registerInputContainer}>
         <Text style={styles.label}>Username</Text>
         <TextInput
@@ -123,7 +136,7 @@ export default function Register() {
         />
         <View style={styles.promptTextContainer}>
           <Text style={{ color: colors.text }}>Already have an account?</Text>
-          <Link href="/(auth)/login" style={{ color: colors.text }}>
+          <Link href="/(auth)/login" style={styles.boldText}>
             Login
           </Link>
         </View>

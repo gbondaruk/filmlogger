@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import {
   type Href,
   Link,
@@ -78,6 +79,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
   },
+  boldText: {
+    fontFamily: 'Inter_600SemiBold',
+    color: colors.text,
+    textAlign: 'center',
+    fontSize: 18,
+  },
 });
 
 export default function Login() {
@@ -113,6 +120,11 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Image
+        style={{ width: 200, height: 200, marginBottom: 20 }}
+        source={require('../../assets/images/splash-icon-light.png')}
+        contentFit="contain"
+      />
       <View style={styles.loginInputContainer}>
         <Text style={styles.label}>Username</Text>
         <TextInput
@@ -139,7 +151,7 @@ export default function Login() {
         />
         <View style={styles.promptTextContainer}>
           <Text style={{ color: colors.text }}>Don't have an account?</Text>
-          <Link href="/register" style={{ color: colors.text }}>
+          <Link href="/register" style={styles.boldText}>
             Register
           </Link>
         </View>
