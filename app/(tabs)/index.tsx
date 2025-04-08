@@ -28,45 +28,79 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.text,
-    fontSize: 18,
-    fontFamily: 'Inter_600SemiBold',
-    marginBottom: 10,
+    fontSize: 20,
+    fontFamily: 'Inter_700Bold',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     borderWidth: 1,
     borderColor: colors.textSecondary,
     borderRadius: 8,
-    padding: 10,
+    padding: 12,
     marginBottom: 16,
     fontSize: 16,
     color: colors.text,
     backgroundColor: colors.cardBackground,
-    width: '100%',
+    width: '90%', // Reduce width to 90% for better spacing
+    alignSelf: 'center', // Center the input fields
   },
   button: {
-    backgroundColor: colors.text,
-    padding: 12,
+    padding: 14,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 10,
-    width: '100%',
+    width: '50%', // Set button width to 50%
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  saveButton: {
+    backgroundColor: colors.text, // Primary action button
+  },
+  locationButton: {
+    backgroundColor: colors.accent, // Distinct color for location
+  },
+  dateButton: {
+    backgroundColor: colors.secondary, // Distinct color for date
   },
   buttonText: {
     color: colors.cardBackground,
     fontSize: 16,
-    fontFamily: 'Inter_500Medium',
+    fontFamily: 'Inter_600SemiBold',
   },
   currentFilmContainer: {
-    marginBottom: 20,
-    padding: 15,
-    borderRadius: 8,
+    marginBottom: 30,
+    padding: 20,
+    borderRadius: 12,
     backgroundColor: colors.cardBackground,
     width: '100%',
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   currentFilmText: {
     color: colors.text,
     fontSize: 16,
     fontFamily: 'Inter_500Medium',
+    marginBottom: 5,
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontFamily: 'Inter_600SemiBold',
+    color: colors.text,
+    marginBottom: 10,
+    alignSelf: 'flex-start',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 20,
   },
 });
 
@@ -102,7 +136,6 @@ export default function Index() {
 
   const [locationPermission, setLocationPermission] = useState(false);
 
-  // Request location permissions on component mount
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -211,7 +244,7 @@ export default function Index() {
         </Text>
       </View>
 
-      <Text style={styles.text}>Add a New Still</Text>
+      <Text style={styles.sectionHeader}>Add a New Still</Text>
       <TextInput
         style={styles.input}
         placeholder="Title"
@@ -239,12 +272,20 @@ export default function Index() {
           setNewStill((prev) => ({ ...prev, location: text }))
         }
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleGetCurrentLocation}
-      >
-        <Text style={styles.buttonText}>Use Current Location</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.button, styles.locationButton]}
+          onPress={handleGetCurrentLocation}
+        >
+          <Text style={styles.buttonText}>Use Current Location</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.dateButton]}
+          onPress={handleSetCurrentDateTime}
+        >
+          <Text style={styles.buttonText}>Set Date & Time</Text>
+        </TouchableOpacity>
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Aperture (e.g., f/2.8)"
@@ -270,12 +311,9 @@ export default function Index() {
         }
       />
       <TouchableOpacity
-        style={styles.button}
-        onPress={handleSetCurrentDateTime}
+        style={[styles.button, styles.saveButton]}
+        onPress={handleAddStill}
       >
-        <Text style={styles.buttonText}>Set Current Date & Time</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleAddStill}>
         <Text style={styles.buttonText}>Save Still</Text>
       </TouchableOpacity>
     </SafeAreaView>

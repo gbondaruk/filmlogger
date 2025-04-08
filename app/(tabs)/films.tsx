@@ -1,4 +1,5 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons'; // Import the icon library
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -6,6 +7,7 @@ import {
   Modal,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -91,10 +93,24 @@ export default function Films() {
     development: '',
     currentStatus: '',
     style: '',
+    cameraId: null,
+    lensId: null,
   });
 
   const [selectedFilm, setSelectedFilm] = useState(null);
   const [stillsModalVisible, setStillsModalVisible] = useState(false);
+
+  const myCameras = [
+    { id: 1, name: 'Canon EOS R5' },
+    { id: 2, name: 'Nikon Z7 II' },
+    { id: 3, name: 'Sony Alpha A7 III' },
+  ];
+
+  const myLenses = [
+    { id: 1, name: 'Canon RF 50mm f/1.2L' },
+    { id: 2, name: 'Nikon Z 24-70mm f/2.8' },
+    { id: 3, name: 'Sony FE 85mm f/1.4 GM' },
+  ];
 
   const handleAddFilm = () => {
     const { brand, iso, images, development, currentStatus, style } = newFilm;
@@ -129,6 +145,8 @@ export default function Films() {
       development: '',
       currentStatus: '',
       style: '',
+      cameraId: null,
+      lensId: null,
     });
     Alert.alert('Success', 'Film added successfully');
   };
@@ -194,72 +212,120 @@ export default function Films() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalHeader}>Add New Film</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Film Brand (e.g., Kodak)"
-              placeholderTextColor={colors.textSecondary}
-              value={newFilm.brand}
-              onChangeText={(text) =>
-                setNewFilm((prev) => ({ ...prev, brand: text }))
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="ISO (e.g., 400)"
-              placeholderTextColor={colors.textSecondary}
-              keyboardType="numeric"
-              value={newFilm.iso ? String(newFilm.iso) : ''}
-              onChangeText={(text) =>
-                setNewFilm((prev) => ({ ...prev, iso: parseInt(text, 10) }))
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Number of Images (e.g., 36)"
-              placeholderTextColor={colors.textSecondary}
-              keyboardType="numeric"
-              value={newFilm.images ? String(newFilm.images) : ''}
-              onChangeText={(text) =>
-                setNewFilm((prev) => ({ ...prev, images: parseInt(text, 10) }))
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Development (e.g., C-41)"
-              placeholderTextColor={colors.textSecondary}
-              value={newFilm.development}
-              onChangeText={(text) =>
-                setNewFilm((prev) => ({ ...prev, development: text }))
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Current Status (e.g., Exposed)"
-              placeholderTextColor={colors.textSecondary}
-              value={newFilm.currentStatus}
-              onChangeText={(text) =>
-                setNewFilm((prev) => ({ ...prev, currentStatus: text }))
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Style (e.g., Black & White)"
-              placeholderTextColor={colors.textSecondary}
-              value={newFilm.style}
-              onChangeText={(text) =>
-                setNewFilm((prev) => ({ ...prev, style: text }))
-              }
-            />
-            <Pressable style={styles.modalButton} onPress={handleAddFilm}>
-              <Text style={styles.modalButtonText}>Submit</Text>
-            </Pressable>
-            <Pressable
-              style={styles.modalButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.modalButtonText}>Cancel</Text>
-            </Pressable>
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+              <Text style={styles.modalHeader}>Add New Film</Text>
+
+              {/* General Film Details */}
+              <Text style={styles.sectionHeader}>Film Details</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Film Brand (e.g., Kodak)"
+                placeholderTextColor={colors.textSecondary}
+                value={newFilm.brand}
+                onChangeText={(text) =>
+                  setNewFilm((prev) => ({ ...prev, brand: text }))
+                }
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="ISO (e.g., 400)"
+                placeholderTextColor={colors.textSecondary}
+                keyboardType="numeric"
+                value={newFilm.iso ? String(newFilm.iso) : ''}
+                onChangeText={(text) =>
+                  setNewFilm((prev) => ({ ...prev, iso: parseInt(text, 10) }))
+                }
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Number of Images (e.g., 36)"
+                placeholderTextColor={colors.textSecondary}
+                keyboardType="numeric"
+                value={newFilm.images ? String(newFilm.images) : ''}
+                onChangeText={(text) =>
+                  setNewFilm((prev) => ({
+                    ...prev,
+                    images: parseInt(text, 10),
+                  }))
+                }
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Development (e.g., C-41)"
+                placeholderTextColor={colors.textSecondary}
+                value={newFilm.development}
+                onChangeText={(text) =>
+                  setNewFilm((prev) => ({ ...prev, development: text }))
+                }
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Current Status (e.g., Exposed)"
+                placeholderTextColor={colors.textSecondary}
+                value={newFilm.currentStatus}
+                onChangeText={(text) =>
+                  setNewFilm((prev) => ({ ...prev, currentStatus: text }))
+                }
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Style (e.g., Black & White)"
+                placeholderTextColor={colors.textSecondary}
+                value={newFilm.style}
+                onChangeText={(text) =>
+                  setNewFilm((prev) => ({ ...prev, style: text }))
+                }
+              />
+
+              {/* Camera Selection */}
+              <Text style={styles.sectionHeader}>Camera</Text>
+              <Picker
+                selectedValue={newFilm.cameraId}
+                style={styles.picker}
+                onValueChange={(itemValue) =>
+                  setNewFilm((prev) => ({ ...prev, cameraId: itemValue }))
+                }
+              >
+                <Picker.Item label="Select Camera" value={null} />
+                {myCameras.map((camera) => (
+                  <Picker.Item
+                    key={camera.id}
+                    label={camera.name}
+                    value={camera.id}
+                  />
+                ))}
+              </Picker>
+
+              {/* Lens Selection */}
+              <Text style={styles.sectionHeader}>Lens</Text>
+              <Picker
+                selectedValue={newFilm.lensId}
+                style={styles.picker}
+                onValueChange={(itemValue) =>
+                  setNewFilm((prev) => ({ ...prev, lensId: itemValue }))
+                }
+              >
+                <Picker.Item label="Select Lens" value={null} />
+                {myLenses.map((lens) => (
+                  <Picker.Item
+                    key={lens.id}
+                    label={lens.name}
+                    value={lens.id}
+                  />
+                ))}
+              </Picker>
+
+              {/* Submit and Cancel Buttons */}
+              <Pressable style={styles.modalButton} onPress={handleAddFilm}>
+                <Text style={styles.modalButtonText}>Submit</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.modalButton, styles.cancelButton]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </Pressable>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -380,11 +446,21 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 4,
   },
+  scrollContent: {
+    paddingBottom: 20,
+  },
   modalHeader: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 16,
     textAlign: 'center',
+    color: colors.text,
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
     color: colors.text,
   },
   stillItem: {
@@ -418,9 +494,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
+  cancelButton: {
+    backgroundColor: colors.cardBackground,
+    borderWidth: 1,
+    borderColor: colors.text,
+  },
   modalButtonText: {
     color: colors.cardBackground,
     fontSize: 16,
     fontFamily: 'Inter_500Medium',
+  },
+  picker: {
+    color: colors.text,
+    marginBottom: 10,
   },
 });

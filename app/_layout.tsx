@@ -10,20 +10,6 @@
 // import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 // import { colors } from '../constants/Colors';
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: colors.background,
-//   },
-//   view: {
-//     flex: 1,
-//     paddingLeft: 10,
-//     paddingRight: 10,
-//     paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight + 20,
-//     paddingBottom: 20,
-//   },
-// });
-
 // export default function HomeLayout() {
 //   const [fontsLoaded] = useFonts({
 //     Inter_300Light,
