@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Alert,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -21,10 +22,11 @@ import { colors } from '../../constants/Colors';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     backgroundColor: colors.background,
     padding: 20,
+  },
+  scrollContent: {
+    paddingBottom: 20,
   },
   text: {
     color: colors.text,
@@ -35,22 +37,23 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: colors.textSecondary,
+    borderColor: colors.border,
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
     fontSize: 16,
     color: colors.text,
-    backgroundColor: colors.cardBackground,
-    width: '90%', // Reduce width to 90% for better spacing
-    alignSelf: 'center', // Center the input fields
+    backgroundColor: colors.inputBackground,
+    width: '85%', // Reduced width for better spacing
+    alignSelf: 'center',
   },
   button: {
     padding: 14,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 10,
-    width: '50%', // Set button width to 50%
+    width: '85%', // Reduced width for better spacing
+    alignSelf: 'center',
     shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -58,18 +61,25 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   saveButton: {
-    backgroundColor: colors.text, // Primary action button
+    backgroundColor: colors.success,
   },
   locationButton: {
-    backgroundColor: colors.accent, // Distinct color for location
+    backgroundColor: colors.accent,
   },
   dateButton: {
-    backgroundColor: colors.secondary, // Distinct color for date
+    backgroundColor: colors.warning,
   },
   buttonText: {
-    color: colors.cardBackground,
+    color: colors.white,
     fontSize: 16,
     fontFamily: 'Inter_600SemiBold',
+  },
+  buttonContainer: {
+    flexDirection: 'column', // Stack buttons vertically
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 20,
   },
   currentFilmContainer: {
     marginBottom: 30,
@@ -95,12 +105,6 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginBottom: 10,
     alignSelf: 'flex-start',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginTop: 20,
   },
 });
 
@@ -232,90 +236,110 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.currentFilmContainer}>
-        <Text style={styles.currentFilmText}>
-          Current Film: {currentFilm.brand} ({currentFilm.iso} ISO)
-        </Text>
-        <Text style={styles.currentFilmText}>
-          Style: {currentFilm.style} | Development: {currentFilm.development}
-        </Text>
-        <Text style={styles.currentFilmText}>
-          Status: {currentFilm.currentStatus}
-        </Text>
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.currentFilmContainer}>
+          <Text style={styles.currentFilmText}>
+            Current Film: {currentFilm.brand} ({currentFilm.iso} ISO)
+          </Text>
+          <Text style={styles.currentFilmText}>
+            Style: {currentFilm.style} | Development: {currentFilm.development}
+          </Text>
+          <Text style={styles.currentFilmText}>
+            Status: {currentFilm.currentStatus}
+          </Text>
+        </View>
 
-      <Text style={styles.sectionHeader}>Add a New Still</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Title"
-        placeholderTextColor={colors.textSecondary}
-        value={newStill.title}
-        onChangeText={(text) =>
-          setNewStill((prev) => ({ ...prev, title: text }))
-        }
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Description"
-        placeholderTextColor={colors.textSecondary}
-        value={newStill.description}
-        onChangeText={(text) =>
-          setNewStill((prev) => ({ ...prev, description: text }))
-        }
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Location"
-        placeholderTextColor={colors.textSecondary}
-        value={newStill.location}
-        onChangeText={(text) =>
-          setNewStill((prev) => ({ ...prev, location: text }))
-        }
-      />
-      <View style={styles.buttonContainer}>
+        <Text style={styles.sectionHeader}>Add a New Still</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Title"
+          placeholderTextColor={colors.textSecondary}
+          value={newStill.title}
+          onChangeText={(text) =>
+            setNewStill((prev) => ({ ...prev, title: text }))
+          }
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Description"
+          placeholderTextColor={colors.textSecondary}
+          value={newStill.description}
+          onChangeText={(text) =>
+            setNewStill((prev) => ({ ...prev, description: text }))
+          }
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Location"
+          placeholderTextColor={colors.textSecondary}
+          value={newStill.location}
+          onChangeText={(text) =>
+            setNewStill((prev) => ({ ...prev, location: text }))
+          }
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Date Taken (YYYY-MM-DD)"
+          placeholderTextColor={colors.textPlaceholder}
+          value={newStill.dateTaken}
+          onChangeText={(text) =>
+            setNewStill((prev) => ({ ...prev, dateTaken: text }))
+          }
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Time Taken (HH:MM:SS)"
+          placeholderTextColor={colors.textPlaceholder}
+          value={newStill.timeTaken}
+          onChangeText={(text) =>
+            setNewStill((prev) => ({ ...prev, timeTaken: text }))
+          }
+        />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.button, styles.locationButton]}
+            onPress={handleGetCurrentLocation}
+          >
+            <Text style={styles.buttonText}>Use Current Location</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.dateButton]}
+            onPress={handleSetCurrentDateTime}
+          >
+            <Text style={styles.buttonText}>Set Date & Time</Text>
+          </TouchableOpacity>
+        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Aperture (e.g., f/2.8)"
+          placeholderTextColor={colors.textSecondary}
+          value={newStill.cameraSettings.aperture}
+          onChangeText={(text) =>
+            setNewStill((prev) => ({
+              ...prev,
+              cameraSettings: { ...prev.cameraSettings, aperture: text },
+            }))
+          }
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Shutter Speed (e.g., 1/125)"
+          placeholderTextColor={colors.textSecondary}
+          value={newStill.cameraSettings.shutterSpeed}
+          onChangeText={(text) =>
+            setNewStill((prev) => ({
+              ...prev,
+              cameraSettings: { ...prev.cameraSettings, shutterSpeed: text },
+            }))
+          }
+        />
         <TouchableOpacity
-          style={[styles.button, styles.locationButton]}
-          onPress={handleGetCurrentLocation}
+          style={[styles.button, styles.saveButton]}
+          onPress={handleAddStill}
         >
-          <Text style={styles.buttonText}>Use Current Location</Text>
+          <Text style={styles.buttonText}>Save Still</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.dateButton]}
-          onPress={handleSetCurrentDateTime}
-        >
-          <Text style={styles.buttonText}>Set Date & Time</Text>
-        </TouchableOpacity>
-      </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Aperture (e.g., f/2.8)"
-        placeholderTextColor={colors.textSecondary}
-        value={newStill.cameraSettings.aperture}
-        onChangeText={(text) =>
-          setNewStill((prev) => ({
-            ...prev,
-            cameraSettings: { ...prev.cameraSettings, aperture: text },
-          }))
-        }
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Shutter Speed (e.g., 1/125)"
-        placeholderTextColor={colors.textSecondary}
-        value={newStill.cameraSettings.shutterSpeed}
-        onChangeText={(text) =>
-          setNewStill((prev) => ({
-            ...prev,
-            cameraSettings: { ...prev.cameraSettings, shutterSpeed: text },
-          }))
-        }
-      />
-      <TouchableOpacity
-        style={[styles.button, styles.saveButton]}
-        onPress={handleAddStill}
-      >
-        <Text style={styles.buttonText}>Save Still</Text>
-      </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 }

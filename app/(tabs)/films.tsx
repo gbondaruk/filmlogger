@@ -88,13 +88,11 @@ export default function Films() {
   const [modalVisible, setModalVisible] = useState(false);
   const [newFilm, setNewFilm] = useState({
     brand: '',
-    iso: null,
-    images: null,
+    iso: 100, // Default ISO value
+    images: 36, // Default number of images
     development: '',
     currentStatus: '',
     style: '',
-    cameraId: null,
-    lensId: null,
   });
 
   const [selectedFilm, setSelectedFilm] = useState(null);
@@ -115,11 +113,13 @@ export default function Films() {
   const handleAddFilm = () => {
     const { brand, iso, images, development, currentStatus, style } = newFilm;
 
+    // Validate required fields
     if (!brand || !iso || !images || !development || !currentStatus || !style) {
-      Alert.alert('Error', 'Please fill in all fields');
+      Alert.alert('Error', 'Please fill in all required fields');
       return;
     }
 
+    // Create a new film entry
     const newFilmEntry = {
       id: films.length + 1,
       brand,
@@ -133,21 +133,29 @@ export default function Films() {
         title: `Still ${i + 1}`,
         description: `Description for Still ${i + 1}`,
         location: `Location ${i + 1}`,
+        dateTaken: new Date().toISOString().split('T')[0], // Default date
+        cameraSettings: {
+          aperture: 'f/2.8',
+          shutterSpeed: '1/125',
+          iso,
+        },
       })),
     };
 
+    // Update the films state
     setFilms((prevFilms) => [...prevFilms, newFilmEntry]);
+
+    // Reset the modal and form
     setModalVisible(false);
     setNewFilm({
       brand: '',
-      iso: null,
-      images: null,
+      iso: 100,
+      images: 36,
       development: '',
       currentStatus: '',
       style: '',
-      cameraId: null,
-      lensId: null,
     });
+
     Alert.alert('Success', 'Film added successfully');
   };
 
@@ -216,7 +224,6 @@ export default function Films() {
               <Text style={styles.modalHeader}>Add New Film</Text>
 
               {/* General Film Details */}
-              <Text style={styles.sectionHeader}>Film Details</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Film Brand (e.g., Kodak)"
@@ -231,9 +238,12 @@ export default function Films() {
                 placeholder="ISO (e.g., 400)"
                 placeholderTextColor={colors.textSecondary}
                 keyboardType="numeric"
-                value={newFilm.iso ? String(newFilm.iso) : ''}
+                value={newFilm.iso ? String(newFilm.iso) : ''} // Convert to string
                 onChangeText={(text) =>
-                  setNewFilm((prev) => ({ ...prev, iso: parseInt(text, 10) }))
+                  setNewFilm((prev) => ({
+                    ...prev,
+                    iso: parseInt(text, 10) || 0,
+                  }))
                 }
               />
               <TextInput
@@ -241,11 +251,11 @@ export default function Films() {
                 placeholder="Number of Images (e.g., 36)"
                 placeholderTextColor={colors.textSecondary}
                 keyboardType="numeric"
-                value={newFilm.images ? String(newFilm.images) : ''}
+                value={newFilm.images ? String(newFilm.images) : ''} // Convert to string
                 onChangeText={(text) =>
                   setNewFilm((prev) => ({
                     ...prev,
-                    images: parseInt(text, 10),
+                    images: parseInt(text, 10) || 0,
                   }))
                 }
               />
@@ -277,44 +287,6 @@ export default function Films() {
                 }
               />
 
-              {/* Camera Selection */}
-              <Text style={styles.sectionHeader}>Camera</Text>
-              <Picker
-                selectedValue={newFilm.cameraId}
-                style={styles.picker}
-                onValueChange={(itemValue) =>
-                  setNewFilm((prev) => ({ ...prev, cameraId: itemValue }))
-                }
-              >
-                <Picker.Item label="Select Camera" value={null} />
-                {myCameras.map((camera) => (
-                  <Picker.Item
-                    key={camera.id}
-                    label={camera.name}
-                    value={camera.id}
-                  />
-                ))}
-              </Picker>
-
-              {/* Lens Selection */}
-              <Text style={styles.sectionHeader}>Lens</Text>
-              <Picker
-                selectedValue={newFilm.lensId}
-                style={styles.picker}
-                onValueChange={(itemValue) =>
-                  setNewFilm((prev) => ({ ...prev, lensId: itemValue }))
-                }
-              >
-                <Picker.Item label="Select Lens" value={null} />
-                {myLenses.map((lens) => (
-                  <Picker.Item
-                    key={lens.id}
-                    label={lens.name}
-                    value={lens.id}
-                  />
-                ))}
-              </Picker>
-
               {/* Submit and Cancel Buttons */}
               <Pressable style={styles.modalButton} onPress={handleAddFilm}>
                 <Text style={styles.modalButtonText}>Submit</Text>
@@ -335,10 +307,19 @@ export default function Films() {
         visible={stillsModalVisible}
         animationType="slide"
         transparent={true}
-        onRequestClose={closeStillsModal}
+        onRequestClose={closeStillsModal} // Support Android back button
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
+            {/* Close Button */}
+            <Pressable style={styles.closeButton} onPress={closeStillsModal}>
+              <MaterialCommunityIcons
+                name="close"
+                size={24}
+                color={colors.text}
+              />
+            </Pressable>
+
             <Text style={styles.modalHeader}>
               Stills for {selectedFilm?.brand} ({selectedFilm?.iso} ISO)
             </Text>
@@ -360,14 +341,14 @@ export default function Films() {
                     <Text style={styles.stillLocation}>
                       Location: {item.location}
                     </Text>
+                    <Text style={styles.stillDate}>
+                      Date Taken: {item.dateTaken}
+                    </Text>
                   </View>
                 </View>
               )}
               keyExtractor={(item) => String(item.id)}
             />
-            <Pressable style={styles.modalButton} onPress={closeStillsModal}>
-              <Text style={styles.modalButtonText}>Close</Text>
-            </Pressable>
           </View>
         </View>
       </Modal>
@@ -437,6 +418,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: '85%',
+    maxHeight: '80%', // Limit the height to 80% of the screen
     backgroundColor: colors.cardBackground,
     padding: 20,
     borderRadius: 12,
@@ -487,6 +469,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
   },
+  stillDate: {
+    fontSize: 14,
+    color: colors.textSecondary,
+  },
   modalButton: {
     backgroundColor: colors.text,
     padding: 12,
@@ -495,17 +481,23 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   cancelButton: {
-    backgroundColor: colors.cardBackground,
-    borderWidth: 1,
-    borderColor: colors.text,
+    backgroundColor: colors.buttonSecondary, // Muted teal-green for better contrast
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 10,
   },
   modalButtonText: {
-    color: colors.cardBackground,
+    color: colors.white, // White text for better legibility
     fontSize: 16,
     fontFamily: 'Inter_500Medium',
   },
   picker: {
     color: colors.text,
+    marginBottom: 10,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
     marginBottom: 10,
   },
 });
